@@ -22,6 +22,6 @@ public class Explosion : MonoBehaviour
 	IEnumerator DeferredDestroy()
 	{
 		yield return new WaitForSeconds(secsTillDestroy);
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 }

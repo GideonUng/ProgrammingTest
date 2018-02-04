@@ -10,7 +10,9 @@ public class ObjectPool : MonoBehaviour
 
 	List<Poolable> pool = new List<Poolable>();
 
-	public Poolable GetInstance(Vector3 pos = new Vector3(), Quaternion rot = new Quaternion())
+	public delegate void InitDel(GameObject go);
+
+	public Poolable GetInstance(InitDel initDel)
 	{
 		Poolable ret = null;
 		foreach (var p in pool)
@@ -25,8 +27,7 @@ public class ObjectPool : MonoBehaviour
 			ret = CreateInstance();
 		}
 
-		ret.gameObject.transform.position = pos;
-		ret.gameObject.transform.rotation = rot;
+		initDel(ret.gameObject);
 
 		ret.inUse = true;
 		ret.gameObject.SetActive(true);

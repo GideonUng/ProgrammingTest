@@ -12,7 +12,12 @@ public class PlayerShooting : MonoBehaviour
 	{
 		if (Input.GetButtonUp(shootAction))
 		{
-			pool.GetInstance(shootPos.position, shootPos.rotation);
+			pool.GetInstance(
+				(GameObject go) =>
+				{
+					go.transform.position = shootPos.position;
+					go.transform.rotation = shootPos.rotation;
+				});
 		}
 	}
 }
