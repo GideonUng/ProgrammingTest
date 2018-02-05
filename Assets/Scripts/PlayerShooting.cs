@@ -17,7 +17,8 @@ public class PlayerShooting : MonoBehaviour
 				{
 					go.transform.position = shootPos.position;
 					go.transform.rotation = shootPos.rotation;
-				});
+				}
+			);
 		}
 	}
 }

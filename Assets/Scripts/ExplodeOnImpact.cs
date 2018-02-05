@@ -2,13 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class ExplodeOnImpact : MonoBehaviour
 {
-	[SerializeField] Object explosion = null;
+	[SerializeField] string explosionPoolName = "";
 
-	protected virtual void OnCollisionEnter(Collision collision)
+	ObjectPool pool;
+
+	void Start()
 	{
-		var explosionInstance = (GameObject)Instantiate(explosion);
-		explosionInstance.transform.position = collision.contacts[0].point;
+		pool = GameObject.FindGameObjectWithTag(explosionPoolName).GetComponent<ObjectPool>();
+		Debug.Assert(pool != null);
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		pool.GetInstance(
+			(GameObject ob) =>
+			{
+				ob.transform.position = collision.contacts[0].point;
+			}
+		);
 	}
 }

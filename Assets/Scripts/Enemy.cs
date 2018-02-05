@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(GameobjectBoundingSphere))]
 public class Enemy : MonoBehaviour
 {
@@ -14,6 +13,8 @@ public class Enemy : MonoBehaviour
 	[SerializeField] float playAreaHeight = 1;
 
 	[SerializeField] List<Transform> dynamicObjectsToAvoid = new List<Transform>();
+
+	public bool Destroyed { get; private set; }
 
 	Transform body;
 	GameobjectBoundingSphere bs;
@@ -85,12 +86,14 @@ public class Enemy : MonoBehaviour
 		if (collision.gameObject.tag == "Player") { return; }
 		StartCoroutine(ReEnable());
 		MoveToRandomPosition();
-		body.gameObject.SetActive(false);
+		Destroyed = true;
+		body.gameObject.SetActive(!Destroyed);
 	}
 
 	IEnumerator ReEnable()
 	{
 		yield return new WaitForSeconds(Random.Range(minRespawnTime, maxRespawnTime));
-		body.gameObject.SetActive(true);
+		Destroyed = false;
+		body.gameObject.SetActive(!Destroyed);
 	}
 }

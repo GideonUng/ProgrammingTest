@@ -132,7 +132,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &114045868470767322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9972dfecb332ee04387015c60de22f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 1432661813969122, guid: 52eeb051734ee2747be3141aadb066a9, type: 2}
+  explosionPoolName: ExplosionPool
 --- !u!114 &114895950006131228
 MonoBehaviour:
   m_ObjectHideFlags: 1

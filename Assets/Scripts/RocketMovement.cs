@@ -31,7 +31,7 @@ public class RocketMovement : ProjectileMovement
 
 	void Update()
 	{
-		if(currentEnemy == null || !currentEnemy.GetChild(0).gameObject.activeInHierarchy)
+		if(currentEnemy == null || !currentEnemy.gameObject.activeInHierarchy || currentEnemy.GetComponent<Enemy>().Destroyed)
 		{
 			FindEnemy();
 		}

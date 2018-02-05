@@ -281,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453e989c5cfb784cb7ac629c9ef756f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
-  rotationSpeed: 90
+  movementSpeed: 3
+  rotationSpeed: 290
 --- !u!114 &114772383076450614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9972dfecb332ee04387015c60de22f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 1432661813969122, guid: 52eeb051734ee2747be3141aadb066a9, type: 2}
+  explosionPoolName: ExplosionPool
 --- !u!136 &136370561879845428
 CapsuleCollider:
   m_ObjectHideFlags: 1
