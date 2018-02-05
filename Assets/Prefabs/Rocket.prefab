@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4572048875739460}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33948927145363006}
   - component: {fileID: 136370561879845428}
   - component: {fileID: 23028678165270866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 33104785739633354}
   - component: {fileID: 65135517511259722}
   - component: {fileID: 23938726148211142}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114252877529846226}
   - component: {fileID: 114935664220328778}
   - component: {fileID: 114419218728788382}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rocket
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -283,7 +283,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   rotationSpeed: 90
-  idleRadius: 2
 --- !u!114 &114772383076450614
 MonoBehaviour:
   m_ObjectHideFlags: 1
