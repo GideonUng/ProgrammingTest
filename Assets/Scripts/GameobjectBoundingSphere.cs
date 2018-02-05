@@ -8,7 +8,7 @@ public class GameobjectBoundingSphere : MonoBehaviour
 	{
 		get
 		{
-			if (!initialized)
+			if (dirty)
 			{
 				RecalculateBoundingSphere();
 			}
@@ -17,7 +17,12 @@ public class GameobjectBoundingSphere : MonoBehaviour
 	}
 	Vector3 offset = new Vector3();
 	float radius = 0;
-	bool initialized = false;
+	bool dirty = true;
+
+	public void FlagDirty()
+	{
+		dirty = true;
+	}
 
 	public void RecalculateBoundingSphere()
 	{
@@ -47,12 +52,12 @@ public class GameobjectBoundingSphere : MonoBehaviour
 			offset = bounds.Value.center - transform.position;
 			radius = bounds.Value.extents.magnitude;
 		}
-		initialized = true;
+		dirty = false;
 	}
 
 	void Start()
 	{
-		if (!initialized)
+		if (dirty)
 		{
 			RecalculateBoundingSphere();
 		}

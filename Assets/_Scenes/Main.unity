@@ -157,6 +157,18 @@ Prefab:
       propertyPath: m_MoveThreshold
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4829722911866132, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270824552510722, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727908406835852, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 208434671989847494, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
