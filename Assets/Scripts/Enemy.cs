@@ -4,26 +4,49 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(GameobjectBoundingSphere))]
 public class Enemy : MonoBehaviour
 {
 	[SerializeField] float minRespawnTime = 2;
 	[SerializeField] float maxRespawnTime = 3;
 	[SerializeField] uint randomPointTries = 4;
-	[SerializeField] float range = 1;
+	[SerializeField] float playAreaWidth = 1;
+	[SerializeField] float playAreaHeight = 1;
+
+	[SerializeField] List<Transform> dynamicObjectsToAvoid = new List<Transform>();
 
 	Transform body;
+	GameobjectBoundingSphere bs;
 
 	bool GetRandomPosition(out Vector3 result)
 	{
-		Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.value * range;
+		result = new Vector3();
+
+		Vector3 randomPoint = new Vector3(
+			Random.Range(-playAreaWidth / 2, playAreaWidth / 2),
+			transform.position.y,
+			Random.Range(-playAreaHeight / 2, playAreaHeight / 2)
+			);
+
 		NavMeshHit hit;
-		if (NavMesh.SamplePosition(new Vector3(randomPoint.x, 0, randomPoint.y), out hit, 5, NavMesh.AllAreas))
+		if (!NavMesh.SamplePosition(randomPoint, out hit, 0.5f, NavMesh.AllAreas)) { return false; }
+		randomPoint = hit.position;
+
+		foreach (var other in dynamicObjectsToAvoid)
 		{
-			result = hit.position;
-			return true;
+			var otherBs = other.GetComponent<GameobjectBoundingSphere>();
+			if (otherBs == null)
+			{
+				otherBs = other.gameObject.AddComponent<GameobjectBoundingSphere>();
+			}
+			if ((randomPoint - otherBs.Bounds.position).magnitude < bs.Bounds.radius + otherBs.Bounds.radius && otherBs.Bounds.radius > 0)
+			{
+				return false;
+			}
 		}
-		result = Vector3.zero;
-		return false;
+
+		result = randomPoint;
+		return true;
 	}
 
 	void MoveToRandomPosition()
@@ -34,28 +57,39 @@ public class Enemy : MonoBehaviour
 			if (GetRandomPosition(out pos))
 			{
 				transform.position = pos;
-				break;
+				return;
 			}
 		}
 		// just use same position if we exhaust position retries
+		Debug.Log("No valid position found");
 	}
 
 	void Start()
 	{
 		body = transform.GetChild(0);
+		bs = GetComponent<GameobjectBoundingSphere>();
+
+		foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+		{
+			if (enemy != gameObject)
+			{
+				dynamicObjectsToAvoid.Add(enemy.transform);
+			}
+		}
+
 		MoveToRandomPosition();
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.tag == "Player") { return; }
-		body.gameObject.SetActive(false);
 		StartCoroutine(ReEnable());
+		MoveToRandomPosition();
+		body.gameObject.SetActive(false);
 	}
 
 	IEnumerator ReEnable()
 	{
-		MoveToRandomPosition();
 		yield return new WaitForSeconds(Random.Range(minRespawnTime, maxRespawnTime));
 		body.gameObject.SetActive(true);
 	}

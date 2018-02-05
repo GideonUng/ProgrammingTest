@@ -27,7 +27,10 @@ public class ObjectPool : MonoBehaviour
 			ret = CreateInstance();
 		}
 
-		initDel(ret.gameObject);
+		if (initDel != null)
+		{
+			initDel(ret.gameObject);
+		}
 
 		ret.inUse = true;
 		ret.gameObject.SetActive(true);

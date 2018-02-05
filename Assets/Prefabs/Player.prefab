@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 114336893843643610}
   - component: {fileID: 114208998044172514}
   - component: {fileID: 114838997019957148}
-  - component: {fileID: 208658295389060934}
+  - component: {fileID: 208434671989847494}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -488,7 +488,7 @@ MonoBehaviour:
   toSpawn: {fileID: 1071679354778320, guid: d429c6dcd0c15564689c9da0ffc14d15, type: 2}
   minPoolSize: 4
   maxpoolSize: 5
---- !u!208 &208658295389060934
+--- !u!208 &208434671989847494
 NavMeshObstacle:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -497,8 +497,8 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.75}
+  m_MoveThreshold: 0.2
   m_Carve: 1
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0, z: 0}

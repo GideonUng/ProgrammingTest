@@ -152,8 +152,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 208434671989847494, guid: c5f3fdcd63d25124fbc6f793b5d4a4db,
+        type: 2}
+      propertyPath: m_MoveThreshold
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 208658295389060934, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
+    - {fileID: 208434671989847494, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c5f3fdcd63d25124fbc6f793b5d4a4db, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &182780388
@@ -276,6 +281,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114955413176148910, guid: f9174f01ec1e9af4ca2c4c294de8467e,
+        type: 2}
+      propertyPath: dynamicObjectsToAvoid.Array.data[0]
+      value: 
+      objectReference: {fileID: 1702860525}
     - target: {fileID: 1861479623979598, guid: f9174f01ec1e9af4ca2c4c294de8467e, type: 2}
       propertyPath: m_Name
       value: Enemy1
@@ -1066,6 +1076,11 @@ Prefab:
       propertyPath: m_Name
       value: Enemy2
       objectReference: {fileID: 0}
+    - target: {fileID: 114955413176148910, guid: f9174f01ec1e9af4ca2c4c294de8467e,
+        type: 2}
+      propertyPath: dynamicObjectsToAvoid.Array.data[0]
+      value: 
+      objectReference: {fileID: 1702860525}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9174f01ec1e9af4ca2c4c294de8467e, type: 2}
   m_IsPrefabParent: 0
@@ -1153,6 +1168,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1651644434}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1702860525 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4773152909036316, guid: c5f3fdcd63d25124fbc6f793b5d4a4db,
+    type: 2}
+  m_PrefabInternal: {fileID: 42235972}
 --- !u!1 &1716339265
 GameObject:
   m_ObjectHideFlags: 0
