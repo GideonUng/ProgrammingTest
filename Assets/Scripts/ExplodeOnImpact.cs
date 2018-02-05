@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ExplodeOnImpact : MonoBehaviour
 {
-	[SerializeField] string explosionPoolName = "";
+	[SerializeField] string explosionPoolTag = "";
 
 	ObjectPool pool;
 
 	void Start()
 	{
-		pool = GameObject.FindGameObjectWithTag(explosionPoolName).GetComponent<ObjectPool>();
+		pool = GameObject.FindGameObjectWithTag(explosionPoolTag).GetComponent<ObjectPool>();
 		Debug.Assert(pool != null);
 	}
 

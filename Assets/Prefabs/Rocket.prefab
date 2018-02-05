@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9972dfecb332ee04387015c60de22f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPoolName: ExplosionPool
+  explosionPoolTag: ExplosionPool
 --- !u!136 &136370561879845428
 CapsuleCollider:
   m_ObjectHideFlags: 1
