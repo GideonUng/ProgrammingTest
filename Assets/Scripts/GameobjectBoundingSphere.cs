@@ -19,12 +19,12 @@ public class GameobjectBoundingSphere : MonoBehaviour
 	float radius = 0;
 	bool dirty = true;
 
-	public void FlagDirty()
+	public void SetDirty()
 	{
 		dirty = true;
 	}
 
-	public void RecalculateBoundingSphere()
+	void RecalculateBoundingSphere()
 	{
 		List<Collider> colliders = new List<Collider>(GetComponents<Collider>());
 		colliders.AddRange(GetComponentsInChildren<Collider>());
@@ -53,13 +53,5 @@ public class GameobjectBoundingSphere : MonoBehaviour
 			radius = bounds.Value.extents.magnitude;
 		}
 		dirty = false;
-	}
-
-	void Start()
-	{
-		if (dirty)
-		{
-			RecalculateBoundingSphere();
-		}
 	}
 }

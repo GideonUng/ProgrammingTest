@@ -17,10 +17,15 @@ public class ExplodeOnImpact : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
+		Explode(collision.contacts[0].point);
+	}
+
+	void Explode(Vector3 point)
+	{
 		pool.GetInstance(
-			(GameObject ob) =>
+			(GameObject go) =>
 			{
-				ob.transform.position = collision.contacts[0].point;
+				go.transform.position = point;
 			}
 		);
 	}

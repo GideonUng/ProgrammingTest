@@ -19,12 +19,6 @@ public class ProjectileMovement : MonoBehaviour
 		UpdateVelocity();
 	}
 
-	void OnDisable()
-	{
-		rb.velocity = new Vector3();
-		rb.angularVelocity = new Vector3();
-	}
-
 	public void UpdateVelocity()
 	{
 		rb.velocity = transform.forward * movementSpeed;

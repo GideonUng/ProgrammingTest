@@ -14,10 +14,6 @@ public class TurretMovement : MonoBehaviour
 	void Awake()
 	{
 		mouseRaycastLayer = LayerMask.NameToLayer("Mouse");
-	}
-
-	void Start()
-	{
 		mainCamera = Camera.main;
 	}
 

@@ -10,15 +10,15 @@ public class PlayerMovement : MonoBehaviour
 
 	Rigidbody rb;
 
-	void Start()
+	void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
 	}
 
 	void Update()
 	{
-		rb.velocity = transform.forward * Input.GetAxis("Vertical") * speed;
-		rb.angularVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
-		rb.angularVelocity *= Input.GetAxis("Vertical") >= 0 ? 1 : -1;
+		float vertical = Input.GetAxis("Vertical");
+		rb.velocity = transform.forward * vertical * speed;
+		rb.angularVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotationSpeed, 0) * (vertical >= 0 ? 1 : -1);
 	}
 }

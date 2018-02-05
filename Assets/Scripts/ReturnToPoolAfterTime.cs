@@ -9,12 +9,12 @@ public class ReturnToPoolAfterTime : MonoBehaviour
 
 	Coroutine coroutine = null;
 
-	void OnEnable()
+	void OnEnable() // should be instantiate callback
 	{
 		coroutine =  StartCoroutine(DefferedDestroy());
 	}
 
-	void OnDisable()
+	void OnDisable() // should be release callback
 	{
 		StopCoroutine(coroutine);
 	}

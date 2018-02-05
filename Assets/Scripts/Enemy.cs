@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(GameobjectBoundingSphere))]
 public class Enemy : MonoBehaviour
 {
@@ -62,20 +63,25 @@ public class Enemy : MonoBehaviour
 			}
 		}
 		// just use same position if we exhaust position retries
-		Debug.Log("No valid position found");
+		Debug.Log("Enemy faild to find valid spawn position. Consider increasing retry count");
+	}
+
+	void Awake()
+	{
+		body = transform.GetChild(0);
+		bs = GetComponent<GameobjectBoundingSphere>();
 	}
 
 	void Start()
 	{
-		body = transform.GetChild(0);
-		bs = GetComponent<GameobjectBoundingSphere>();
+		// subtract enemy size from play area. Not really necessary but decreses chance of lumping at the play area edges
+		playAreaWidth -= bs.Bounds.radius;
+		playAreaHeight -= bs.Bounds.radius;
 
 		foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
-			if (enemy != gameObject)
-			{
-				dynamicObjectsToAvoid.Add(enemy.transform);
-			}
+			if (enemy == gameObject) { continue; }
+			dynamicObjectsToAvoid.Add(enemy.transform);
 		}
 
 		MoveToRandomPosition();
@@ -83,11 +89,11 @@ public class Enemy : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.tag == "Player") { return; }
-		StartCoroutine(ReEnable());
-		MoveToRandomPosition();
+		if (collision.gameObject.tag != "Projectile") { return; }
 		Destroyed = true;
 		body.gameObject.SetActive(!Destroyed);
+		MoveToRandomPosition();
+		StartCoroutine(ReEnable());
 	}
 
 	IEnumerator ReEnable()

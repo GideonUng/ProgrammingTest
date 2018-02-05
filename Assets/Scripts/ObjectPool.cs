@@ -49,9 +49,9 @@ public class ObjectPool : MonoBehaviour
 
 	Poolable CreateInstance()
 	{
-		var gobj = (GameObject)Instantiate(toSpawn);
-		gobj.SetActive(false);
-		var poolable = gobj.GetComponent<Poolable>();
+		var go = (GameObject)Instantiate(toSpawn);
+		go.SetActive(false);
+		var poolable = go.GetComponent<Poolable>();
 		Debug.Assert(poolable);
 		poolable.pool = this;
 		pool.Add(poolable);
@@ -67,7 +67,6 @@ public class ObjectPool : MonoBehaviour
 	void Start()
 	{
 		Debug.Assert(toSpawn != null);
-
 		for (int i = 0; i < minPoolSize; i++)
 		{
 			CreateInstance();
