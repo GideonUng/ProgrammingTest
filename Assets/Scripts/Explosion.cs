@@ -1,25 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-	[SerializeField] float secsTillDestroy = 1;
-	[SerializeField] float expandSpeed = 1;
+	[SerializeField]
+	private float secsTillDestroy = 1;
+	[SerializeField]
+	private float expandSpeed = 1;
 
-	void OnEnable()
+	private void OnEnable()
 	{
 		StartCoroutine(DeferredDestroy());
 		transform.localScale = new Vector3(0, 0, 0);
 	}
 
-	void Update()
+	private void Update()
 	{
-		float newSale = transform.localScale.x + Time.deltaTime * expandSpeed;
+		var newSale = transform.localScale.x + Time.deltaTime * expandSpeed;
 		transform.localScale = new Vector3(newSale, newSale, newSale);
 	}
 
-	IEnumerator DeferredDestroy()
+	private IEnumerator DeferredDestroy()
 	{
 		yield return new WaitForSeconds(secsTillDestroy);
 		Destroy(gameObject);

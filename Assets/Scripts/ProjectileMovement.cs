@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ProjectileMovement : MonoBehaviour
 {
-	[SerializeField] protected float movementSpeed = 1;
+	[SerializeField]
+	protected float movementSpeed = 1;
 
-	protected Rigidbody rb;
+	private Rigidbody rb;
 
-	void Awake()
+	private void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
 	}

@@ -1,32 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurretMovement : MonoBehaviour
 {
-	[SerializeField] float rotationSpeed = 1;
+	[SerializeField]
+	private float rotationSpeed = 1;
 
-	Camera mainCamera;
-	LayerMask mouseRaycastLayer;
+	private Camera mainCamera;
+	private LayerMask mouseRaycastLayer;
 
-	Quaternion targetRotation;
+	private Quaternion targetRotation;
 
-	void Awake()
+	private void Awake()
 	{
 		mouseRaycastLayer = LayerMask.NameToLayer("Mouse");
 		mainCamera = Camera.main;
 	}
 
-	void Update()
+	private void Update()
 	{
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(
+			transform.rotation,
+			targetRotation,
+			rotationSpeed * Time.deltaTime
+		);
 	}
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;
-		if (!Physics.Raycast(ray, out hit, 20f, 1 << mouseRaycastLayer.value)) { return; }
+		if (!Physics.Raycast(ray, out var hit, 20f, 1 << mouseRaycastLayer.value))
+		{
+			return;
+		}
 
 		targetRotation = Quaternion.LookRotation(hit.point - transform.position, Vector3.up);
 		// make sure rotation is only around y when mouse is very close to turret center

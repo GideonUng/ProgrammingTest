@@ -7,31 +7,39 @@ using UnityEngine.AI;
 [RequireComponent(typeof(GameobjectBoundingSphere))]
 public class Enemy : MonoBehaviour
 {
-	[SerializeField] float minRespawnTime = 2;
-	[SerializeField] float maxRespawnTime = 3;
-	[SerializeField] uint randomPointTries = 4;
-	[SerializeField] float playAreaWidth = 1;
-	[SerializeField] float playAreaHeight = 1;
-
-	[SerializeField] List<Transform> dynamicObjectsToAvoid = new List<Transform>();
+	[SerializeField]
+	private float minRespawnTime = 2;
+	[SerializeField]
+	private float maxRespawnTime = 3;
+	[SerializeField]
+	private uint randomPointTries = 4;
+	[SerializeField]
+	private float playAreaWidth = 1;
+	[SerializeField]
+	private float playAreaHeight = 1;
+	[SerializeField]
+	private List<Transform> dynamicObjectsToAvoid = new List<Transform>();
 
 	public bool Destroyed { get; private set; }
 
-	Transform body;
-	GameobjectBoundingSphere bs;
+	private Transform body;
+	private GameobjectBoundingSphere bs;
 
-	bool GetRandomPosition(out Vector3 result)
+	private bool GetRandomPosition(out Vector3 result)
 	{
 		result = new Vector3();
 
-		Vector3 randomPoint = new Vector3(
+		var randomPoint = new Vector3(
 			Random.Range(-playAreaWidth / 2, playAreaWidth / 2),
 			transform.position.y,
 			Random.Range(-playAreaHeight / 2, playAreaHeight / 2)
-			);
+		);
 
-		NavMeshHit hit;
-		if (!NavMesh.SamplePosition(randomPoint, out hit, 0.5f, NavMesh.AllAreas)) { return false; }
+		if (!NavMesh.SamplePosition(randomPoint, out var hit, 0.5f, NavMesh.AllAreas))
+		{
+			return false;
+		}
+
 		randomPoint = hit.position;
 
 		foreach (var other in dynamicObjectsToAvoid)
@@ -41,7 +49,9 @@ public class Enemy : MonoBehaviour
 			{
 				otherBs = other.gameObject.AddComponent<GameobjectBoundingSphere>();
 			}
-			if ((randomPoint - otherBs.Bounds.position).magnitude < bs.Bounds.radius + otherBs.Bounds.radius && otherBs.Bounds.radius > 0)
+
+			if ((randomPoint - otherBs.Bounds.position).magnitude < bs.Bounds.radius + otherBs.Bounds.radius &&
+			    otherBs.Bounds.radius > 0)
 			{
 				return false;
 			}
@@ -51,52 +61,59 @@ public class Enemy : MonoBehaviour
 		return true;
 	}
 
-	void MoveToRandomPosition()
+	private void MoveToRandomPosition()
 	{
-		Vector3 pos = new Vector3();
-		for (int i = 0; i < randomPointTries; i++)
+		for (var i = 0; i < randomPointTries; i++)
 		{
-			if (GetRandomPosition(out pos))
-			{
-				transform.position = pos;
-				return;
-			}
+			if (!GetRandomPosition(out var pos))
+				continue;
+			transform.position = pos;
+			return;
 		}
+
 		// just use same position if we exhaust position retries
-		Debug.Log("Enemy faild to find valid spawn position. Consider increasing retry count");
+		Debug.Log("Enemy failed to find valid spawn position. Consider increasing retry count");
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		body = transform.GetChild(0);
 		bs = GetComponent<GameobjectBoundingSphere>();
 	}
 
-	void Start()
+	private void Start()
 	{
-		// subtract enemy size from play area. Not really necessary but decreses chance of lumping at the play area edges
+		// subtract enemy size from play area. Not really necessary but decreases chance of lumping at the play area edges
 		playAreaWidth -= bs.Bounds.radius;
 		playAreaHeight -= bs.Bounds.radius;
 
 		foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
-			if (enemy == gameObject) { continue; }
+			if (enemy == gameObject)
+			{
+				continue;
+			}
+
 			dynamicObjectsToAvoid.Add(enemy.transform);
 		}
 
 		MoveToRandomPosition();
 	}
 
-	void OnCollisionEnter(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.tag != "Projectile") { return; }
+		if (!collision.gameObject.CompareTag("Projectile"))
+		{
+			return;
+		}
+
 		Destroyed = true;
 		body.gameObject.SetActive(!Destroyed);
 		MoveToRandomPosition();
 		StartCoroutine(ReEnable());
 	}
 
-	IEnumerator ReEnable()
+	private IEnumerator ReEnable()
 	{
 		yield return new WaitForSeconds(Random.Range(minRespawnTime, maxRespawnTime));
 		Destroyed = false;

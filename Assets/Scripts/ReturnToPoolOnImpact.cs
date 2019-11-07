@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Poolable))]
 public class ReturnToPoolOnImpact : MonoBehaviour
 {
-	Poolable poolable;
+	private Poolable poolable;
 
-	void Awake()
+	private void Awake()
 	{
 		poolable = GetComponent<Poolable>();
 	}
 
-	void OnCollisionEnter(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
 		poolable.Release();
 	}

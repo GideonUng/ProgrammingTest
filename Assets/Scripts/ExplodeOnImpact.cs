@@ -1,32 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ExplodeOnImpact : MonoBehaviour
 {
-	[SerializeField] string explosionPoolTag = "";
+	[SerializeField]
+	private string explosionPoolTag = "";
 
-	ObjectPool pool;
+	private ObjectPool pool;
 
-	void Start()
+	private void Start()
 	{
 		pool = GameObject.FindGameObjectWithTag(explosionPoolTag).GetComponent<ObjectPool>();
 		Debug.Assert(pool != null);
 	}
 
-	void OnCollisionEnter(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
 		Explode(collision.contacts[0].point);
 	}
 
-	void Explode(Vector3 point)
+	private void Explode(Vector3 point)
 	{
 		pool.GetInstance(
-			(GameObject go) =>
-			{
-				go.transform.position = point;
-			}
+			go => { go.transform.position = point; }
 		);
 	}
 }

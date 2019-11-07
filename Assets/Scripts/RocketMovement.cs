@@ -1,25 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RocketMovement : ProjectileMovement
 {
-	[SerializeField] float rotationSpeed = 1;
-	Transform currentEnemy = null;
+	[SerializeField]
+	private float rotationSpeed = 1;
+	private Transform currentEnemy;
 
-	void FindEnemy()
+	private void FindEnemy()
 	{
 		currentEnemy = null;
-		float shortestDist = Mathf.Infinity;
+		var shortestDist = Mathf.Infinity;
 		foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
-			float distToEnemy = (transform.position - enemy.transform.position).magnitude;
-			if (enemy.transform.GetChild(0).gameObject.activeInHierarchy && shortestDist > distToEnemy)
-			{
-				shortestDist = distToEnemy;
-				currentEnemy = enemy.transform;
-			}
+			var distToEnemy = (transform.position - enemy.transform.position).magnitude;
+			if (!enemy.transform.GetChild(0).gameObject.activeInHierarchy || !(shortestDist > distToEnemy))
+				continue;
+
+			shortestDist = distToEnemy;
+			currentEnemy = enemy.transform;
 		}
 	}
 
@@ -29,9 +28,10 @@ public class RocketMovement : ProjectileMovement
 		FindEnemy();
 	}
 
-	void Update()
+	private void Update()
 	{
-		if(currentEnemy == null || !currentEnemy.gameObject.activeInHierarchy || currentEnemy.GetComponent<Enemy>().Destroyed)
+		if (currentEnemy == null || !currentEnemy.gameObject.activeInHierarchy ||
+		    currentEnemy.GetComponent<Enemy>().Destroyed)
 		{
 			FindEnemy();
 		}
@@ -39,7 +39,7 @@ public class RocketMovement : ProjectileMovement
 		Quaternion targetRotation;
 		if (currentEnemy != null)
 		{
-			Vector3 targetPosition = new Vector3(currentEnemy.position.x, transform.position.y, currentEnemy.position.z);
+			var targetPosition = new Vector3(currentEnemy.position.x, transform.position.y, currentEnemy.position.z);
 			targetRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
 		}
 		else
@@ -47,7 +47,8 @@ public class RocketMovement : ProjectileMovement
 			// when in idle rotate to the right
 			targetRotation = Quaternion.LookRotation(transform.right, Vector3.up);
 		}
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+		transform.rotation =
+			Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 		UpdateVelocity();
 	}
 }

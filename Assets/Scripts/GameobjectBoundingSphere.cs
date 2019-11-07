@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameobjectBoundingSphere : MonoBehaviour
@@ -15,18 +14,19 @@ public class GameobjectBoundingSphere : MonoBehaviour
 			return new BoundingSphere(transform.position + offset, radius);
 		}
 	}
-	Vector3 offset = new Vector3();
-	float radius = 0;
-	bool dirty = true;
+
+	private Vector3 offset;
+	private float radius;
+	private bool dirty = true;
 
 	public void SetDirty()
 	{
 		dirty = true;
 	}
 
-	void RecalculateBoundingSphere()
+	private void RecalculateBoundingSphere()
 	{
-		List<Collider> colliders = new List<Collider>(GetComponents<Collider>());
+		var colliders = new List<Collider>(GetComponents<Collider>());
 		colliders.AddRange(GetComponentsInChildren<Collider>());
 
 		Bounds? bounds = null;

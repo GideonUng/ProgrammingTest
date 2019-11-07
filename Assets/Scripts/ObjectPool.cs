@@ -1,38 +1,35 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class ObjectPool : MonoBehaviour
 {
-	[SerializeField] Object toSpawn = null;
-	[SerializeField] uint minPoolSize = 0;
-	[SerializeField] uint maxpoolSize = 1;
+	[SerializeField]
+	private Object toSpawn;
+	[SerializeField]
+	private uint minPoolSize;
+	[SerializeField]
+	private uint maxpoolSize = 1;
 
-	List<Poolable> pool = new List<Poolable>();
+	private readonly List<Poolable> pool = new List<Poolable>();
 
-	public delegate void InitDel(GameObject go);
-
-	public Poolable GetInstance(InitDel initDel)
+	public Poolable GetInstance(Action<GameObject> initDel)
 	{
 		Poolable ret = null;
-		foreach (var p in pool)
+		foreach (var p in pool.Where(p => !p.InUse))
 		{
-			if (!p.inUse)
-			{
-				ret = p;
-			}
+			ret = p;
 		}
 		if (ret == null)
 		{
 			ret = CreateInstance();
 		}
 
-		if (initDel != null)
-		{
-			initDel(ret.gameObject);
-		}
+		initDel?.Invoke(ret.gameObject);
 
-		ret.inUse = true;
+		ret.InUse = true;
 		ret.gameObject.SetActive(true);
 		return ret;
 	}
@@ -43,31 +40,31 @@ public class ObjectPool : MonoBehaviour
 		{
 			DestroyInstance(poolable);
 		}
-		poolable.inUse = false;
+		poolable.InUse = false;
 		poolable.gameObject.SetActive(false);
 	}
 
-	Poolable CreateInstance()
+	private Poolable CreateInstance()
 	{
-		var go = (GameObject)Instantiate(toSpawn);
+		var go = (GameObject) Instantiate(toSpawn);
 		go.SetActive(false);
 		var poolable = go.GetComponent<Poolable>();
 		Debug.Assert(poolable);
-		poolable.pool = this;
+		poolable.Pool = this;
 		pool.Add(poolable);
 		return poolable;
 	}
 
-	void DestroyInstance(Poolable poolable)
+	private void DestroyInstance(Poolable poolable)
 	{
 		pool.Remove(poolable);
 		Destroy(poolable.gameObject);
 	}
 
-	void Start()
+	private void Start()
 	{
 		Debug.Assert(toSpawn != null);
-		for (int i = 0; i < minPoolSize; i++)
+		for (var i = 0; i < minPoolSize; i++)
 		{
 			CreateInstance();
 		}
